@@ -236,8 +236,6 @@ This station feeds live ADS-B data to Flightradar24:
 - **Location:** Chandkheda, Ahmedabad, Gujarat, India
 - **Coverage:** ~150-200km radius around Ahmedabad
 
-Active feeders receive a **free Business plan** (~$500/year value).
-
 ---
 
 ## 🗺️ Roadmap

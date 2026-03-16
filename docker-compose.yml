@@ -44,6 +44,8 @@ services:
       POLL_INTERVAL: "5"
     depends_on:
       - timescaledb
+    volumes:
+      - /tmp/dump1090:/tmp/dump1090:ro    
 
 volumes:
   timescale_data:

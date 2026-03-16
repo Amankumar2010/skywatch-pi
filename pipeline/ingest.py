@@ -1,11 +1,12 @@
 import os
 import time
+import json
 import requests
 import psycopg2
 from datetime import datetime, timezone
 
 # ── Config ────────────────────────────────────────────────
-DUMP1090_URL = os.getenv("DUMP1090_URL", "http://localhost:8080/data/aircraft.json")
+DUMP1090_FILE = os.getenv("DUMP1090_FILE", "/tmp/dump1090/aircraft.json")
 DB_HOST      = os.getenv("DB_HOST",     "timescaledb")
 DB_PORT      = os.getenv("DB_PORT",     "5432")
 DB_NAME      = os.getenv("DB_NAME",     "skywatch")
@@ -30,11 +31,10 @@ def get_connection():
 # ── Fetch from dump1090 ───────────────────────────────────
 def fetch_aircraft():
     try:
-        r = requests.get(DUMP1090_URL, timeout=5)
-        r.raise_for_status()
-        return r.json().get("aircraft", [])
+        with open(DUMP1090_FILE, 'r') as f:
+            return json.load(f).get("aircraft", [])
     except Exception as e:
-        print(f"⚠️  dump1090 fetch failed: {e}")
+        print(f"⚠️  dump1090 read failed: {e}")
         return []
 
 # ── Insert into TimescaleDB ───────────────────────────────

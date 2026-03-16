@@ -1,0 +1,50 @@
+services:
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: skywatch-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: skywatch
+      POSTGRES_USER: skywatch
+      POSTGRES_PASSWORD: skywatch123
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+      - timescale_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  grafana:
+    image: grafana/grafana:10.4.3
+    container_name: skywatch-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+      GF_USERS_ALLOW_SIGN_UP: false
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - timescaledb
+
+  pipeline:
+    build: ./pipeline
+    container_name: skywatch-pipeline
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      DUMP1090_URL: http://localhost:8080/data/aircraft.json
+      DB_HOST: localhost
+      DB_PORT: "5432"
+      DB_NAME: skywatch
+      DB_USER: skywatch
+      DB_PASS: skywatch123
+      POLL_INTERVAL: "5"
+    depends_on:
+      - timescaledb
+
+volumes:
+  timescale_data:
+  grafana_data:

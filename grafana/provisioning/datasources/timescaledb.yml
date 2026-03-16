@@ -1,0 +1,14 @@
+apiVersion: 1
+
+datasources:
+  - name: TimescaleDB
+    type: postgres
+    url: timescaledb:5432
+    database: skywatch
+    user: skywatch
+    secureJsonData:
+      password: skywatch123
+    jsonData:
+      sslmode: disable
+      timescaledb: true
+    isDefault: true

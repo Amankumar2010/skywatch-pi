@@ -32,7 +32,12 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: ghcr.io/amankumar2010/skywatch-pipeline:latest
-
+      
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+      
       - name: Deploy to Raspberry Pi
         uses: appleboy/ssh-action@v1.0.3
         with:

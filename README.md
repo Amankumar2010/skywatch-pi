@@ -267,4 +267,3 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 **Amankumar** — [@Amankumar2010](https://github.com/Amankumar2010)
 
-> Built with a ₹9,000 hardware investment that pays back ~₹1,30,000/year in free premium subscriptions. 🚀# SkyWatch Pi — Live ADS-B Flight Tracker
